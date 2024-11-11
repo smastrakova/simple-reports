@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
 import { IReport } from '../db/models/ReportDbo.js'
-import { createNewReport } from '../handlers/reportHandler.js'
+import {
+  createNewReport,
+  updateReportFields
+} from '../handlers/reportHandler.js'
+import logger from '../utils/logger.js'
 
 export const getReports = async (req: Request, res: Response) => {
   res.status(404)
@@ -35,7 +39,18 @@ export const deleteReport = async (req: Request, res: Response) => {
 }
 
 export const updateReport = async (req: Request, res: Response) => {
-  res.status(404)
+  const { id } = req.params
+  logger.debug(`Updating report with id ${id}`)
+
+  const updatedReport: IReport = await updateReportFields(
+    id,
+    req.body.reporterName,
+    req.body.reporterAge,
+    req.body.headline,
+    req.file
+  )
+
+  res.status(200).json(updatedReport)
   return
 }
 

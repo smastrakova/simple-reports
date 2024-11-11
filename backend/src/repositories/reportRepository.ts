@@ -41,3 +41,46 @@ export async function createReportDbo(
     throw error
   }
 }
+
+export async function findOneReport(
+  id: string,
+  session?: ClientSession
+): Promise<IReport | null> {
+  try {
+    validateId(id)
+
+    logger.debug(`Fetching single report with id \'${id}\'`)
+
+    const findQuery = { _id: id }
+
+    if (session) {
+      logger.debug('Running query in transaction')
+      return await ReportModel.findOne(findQuery).session(session)
+    }
+
+    return await ReportModel.findOne(findQuery)
+  } catch (error) {
+    logger.error(`Error while fetching single report: ${decode(error)}`)
+    throw error
+  }
+}
+
+export async function saveReport(
+  report: IReport,
+  session?: ClientSession
+): Promise<IReport | null> {
+  try {
+    logger.debug(`Saving report`)
+
+    report.lastUpdate = new Date()
+    if (session) {
+      logger.debug('Running query in transaction')
+      return await report.save({ session })
+    }
+
+    return await report.save()
+  } catch (error) {
+    logger.error(`Error while saving report: ${decode(error)}`)
+    throw error
+  }
+}

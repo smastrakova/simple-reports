@@ -1,7 +1,10 @@
 import { celebrate } from 'celebrate'
 import { Router } from 'express'
 import multer, { Multer, StorageEngine } from 'multer'
-import { createReportValidation } from '../controllers/inputValidator.js'
+import {
+  createReportValidation,
+  idValidation
+} from '../controllers/inputValidator.js'
 import {
   createReport,
   deleteReport,
@@ -71,12 +74,17 @@ router
       next(error)
     }
   })
-  .patch('/:id', async (req, res, next) => {
-    try {
-      await updateReport(req, res)
-    } catch (error) {
-      next(error)
+  .patch(
+    '/:id',
+    upload.single('file'),
+    celebrate(idValidation),
+    async (req, res, next) => {
+      try {
+        await updateReport(req, res)
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
 
 export default router
