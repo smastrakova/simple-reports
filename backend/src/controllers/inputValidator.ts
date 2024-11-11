@@ -31,3 +31,18 @@ export const idValidation = {
     })
   })
 }
+
+export const paginationValidation = {
+  [Segments.PARAMS]: Joi.object({
+    page: Joi.number().integer().min(1).optional().messages({
+      'number.base': 'page must be a number.',
+      'number.integer': 'page must be an integer.',
+      'number.min': 'page must be at least 1.'
+    }),
+    limit: Joi.number().integer().min(1).optional().messages({
+      'number.base': 'limit must be a number.',
+      'number.integer': 'limit must be an integer.',
+      'number.min': 'limit must be at least 1.'
+    })
+  })
+}

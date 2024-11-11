@@ -3,7 +3,8 @@ import { Router } from 'express'
 import multer, { Multer, StorageEngine } from 'multer'
 import {
   createReportValidation,
-  idValidation
+  idValidation,
+  paginationValidation
 } from '../controllers/inputValidator.js'
 import {
   createReport,
@@ -27,21 +28,21 @@ const upload: Multer = multer({
 })
 
 router
-  .get('/', async (req, res, next) => {
+  .get('/', celebrate(paginationValidation), async (req, res, next) => {
     try {
       await getReports(req, res)
     } catch (error) {
       next(error)
     }
   })
-  .get('/summary', async (req, res, next) => {
+  .get('/summary', celebrate(paginationValidation), async (req, res, next) => {
     try {
       await getReportSummary(req, res)
     } catch (error) {
       next(error)
     }
   })
-  .get('/:id', async (req, res, next) => {
+  .get('/:id', celebrate(idValidation), async (req, res, next) => {
     try {
       await getSingleReport(req, res)
     } catch (error) {

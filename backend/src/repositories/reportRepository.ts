@@ -42,6 +42,20 @@ export async function createReportDbo(
   }
 }
 
+export async function findAllReports(
+  pageNumber: number,
+  limitNumber: number
+): Promise<IReport[]> {
+  try {
+    return await ReportModel.find()
+      .limit(limitNumber)
+      .skip((pageNumber - 1) * limitNumber)
+  } catch (error) {
+    logger.error(`Error while finding all reports: ${decode(error)}`)
+    throw error
+  }
+}
+
 export async function findOneReturnFields(
   id: string,
   fieldsToSelect: string,
@@ -120,6 +134,17 @@ export async function findAndDeleteReport(id: string): Promise<IReport | null> {
     return await ReportModel.findByIdAndDelete(id)
   } catch (error) {
     logger.error(`Error while removing report: ${decode(error)}`)
+    throw error
+  }
+}
+
+export async function countReports(): Promise<number> {
+  try {
+    logger.debug('Counting all reports in collection')
+
+    return await ReportModel.countDocuments()
+  } catch (error) {
+    logger.error(`Error while counting all reports: ${decode(error)}`)
     throw error
   }
 }
