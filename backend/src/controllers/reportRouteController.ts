@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { IFile } from '../db/models/FileDbo.js'
 import { IReport } from '../db/models/ReportDbo.js'
 import { fetchFileSummary } from '../handlers/fileHandler.js'
 import {
@@ -6,6 +7,7 @@ import {
   removeReport,
   updateReportFields
 } from '../handlers/reportHandler.js'
+import { findOneFile } from '../repositories/fileRepository.js'
 import {
   countReports,
   findAllReports,
@@ -126,6 +128,24 @@ export const updateReport = async (req: Request, res: Response) => {
 }
 
 export const downloadFile = async (req: Request, res: Response) => {
-  res.status(404)
+  const { id, fileId } = req.params
+
+  logger.debug(
+    `Fetching file with id \'${fileId}\' from report with id \'${id}\'`
+  )
+
+  const file: IFile | null = await findOneFile(fileId)
+  if (!file) {
+    const error = new Error('File not found')
+    error.name = 'NotFoundError'
+    throw error
+  }
+
+  res
+    .setHeader('Content-Disposition', `attachment; filename="${file.name}"`)
+    .setHeader('Content-Type', file.mimeType)
+    .setHeader('Content-Length', file.data.length)
+    .status(200)
+    .send(file.data)
   return
 }
