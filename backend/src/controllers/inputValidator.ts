@@ -21,3 +21,13 @@ export const createReportValidation = {
     })
   })
 }
+
+export const idValidation = {
+  [Segments.PARAMS]: Joi.object({
+    id: Joi.string().hex().length(24).required().messages({
+      'any.required': 'The ID parameter is required.',
+      'string.hex': 'The ID parameter must be a valid ObjectID.',
+      'string.length': 'The ID parameter must be 24 characters long.'
+    })
+  })
+}
