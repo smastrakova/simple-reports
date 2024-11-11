@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import multer, { Multer, StorageEngine } from 'multer'
 import {
   createReport,
   deleteReport,
@@ -10,6 +11,15 @@ import {
 } from '../controllers/reportRouteController.js'
 
 const router: Router = Router()
+const fileSizeLimitInBytes: number = 16 * 1024 * 1024
+
+const storage: StorageEngine = multer.memoryStorage()
+const upload: Multer = multer({
+  storage,
+  limits: {
+    fileSize: fileSizeLimitInBytes
+  }
+})
 
 router
   .get('/', async (req, res, next) => {
@@ -40,7 +50,7 @@ router
       next(error)
     }
   })
-  .post('/', async (req, res, next) => {
+  .post('/', upload.single('file'), async (req, res, next) => {
     try {
       await createReport(req, res)
     } catch (error) {
