@@ -4,7 +4,8 @@ import multer, { Multer, StorageEngine } from 'multer'
 import {
   createReportValidation,
   idValidation,
-  paginationValidation
+  paginationValidation,
+  reportAndFileIdsValidation
 } from '../controllers/inputValidator.js'
 import {
   createReport,
@@ -49,13 +50,17 @@ router
       next(error)
     }
   })
-  .get('/:id/files/:fileId', async (req, res, next) => {
-    try {
-      await downloadFile(req, res)
-    } catch (error) {
-      next(error)
+  .get(
+    '/:id/files/:fileId',
+    celebrate(reportAndFileIdsValidation),
+    async (req, res, next) => {
+      try {
+        await downloadFile(req, res)
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
   .post(
     '/',
     upload.single('file'),

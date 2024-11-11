@@ -32,6 +32,21 @@ export const idValidation = {
   })
 }
 
+export const reportAndFileIdsValidation = {
+  [Segments.PARAMS]: Joi.object({
+    id: Joi.string().hex().length(24).required().messages({
+      'any.required': 'The ID parameter is required.',
+      'string.hex': 'The ID parameter must be a valid ObjectID.',
+      'string.length': 'The ID parameter must be 24 characters long.'
+    }),
+    fileId: Joi.string().hex().length(24).required().messages({
+      'any.required': 'The fileId parameter is required.',
+      'string.hex': 'The fileId parameter must be a valid ObjectID.',
+      'string.length': 'The fileId parameter must be 24 characters long.'
+    })
+  })
+}
+
 export const paginationValidation = {
   [Segments.PARAMS]: Joi.object({
     page: Joi.number().integer().min(1).optional().messages({
