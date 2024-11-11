@@ -3,7 +3,9 @@ import { IFile } from '../db/models/FileDbo.js'
 import { IReport } from '../db/models/ReportDbo.js'
 import {
   createReportDbo,
+  findAndDeleteReport,
   findOneReport,
+  findOneReturnFields,
   saveReport
 } from '../repositories/reportRepository.js'
 import logger from '../utils/logger.js'
@@ -129,5 +131,39 @@ export const updateReportFields = async (
       headline,
       file
     )
+  )
+}
+
+const deleteReportTransactional = async (
+  session: ClientSession,
+  reportId: string
+): Promise<IReport> => {
+  const report: IReport | null = await findOneReturnFields(
+    reportId,
+    'files',
+    session
+  )
+  if (!report) {
+    const error = new Error('Report not found')
+    error.name = 'NotFoundError'
+    throw error
+  }
+
+  remoteAttachedFiles(report.files, session)
+
+  const deletedReport: IReport | null = await findAndDeleteReport(reportId)
+  if (!deletedReport) {
+    const error = new Error('Report not deleted')
+    error.name = 'MissingResultError'
+    throw error
+  }
+
+  logger.debug(`Deleted report with id \'${deletedReport._id.toString()}\'`)
+  return deletedReport
+}
+
+export const removeReport = async (reportId: string): Promise<IReport> => {
+  return await withTransaction((session) =>
+    deleteReportTransactional(session, reportId)
   )
 }
