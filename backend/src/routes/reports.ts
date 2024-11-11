@@ -1,5 +1,7 @@
+import { celebrate } from 'celebrate'
 import { Router } from 'express'
 import multer, { Multer, StorageEngine } from 'multer'
+import { createReportValidation } from '../controllers/inputValidator.js'
 import {
   createReport,
   deleteReport,
@@ -50,13 +52,18 @@ router
       next(error)
     }
   })
-  .post('/', upload.single('file'), async (req, res, next) => {
-    try {
-      await createReport(req, res)
-    } catch (error) {
-      next(error)
+  .post(
+    '/',
+    upload.single('file'),
+    celebrate(createReportValidation),
+    async (req, res, next) => {
+      try {
+        await createReport(req, res)
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
   .delete('/:id', async (req, res, next) => {
     try {
       await deleteReport(req, res)
