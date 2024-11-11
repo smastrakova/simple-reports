@@ -67,7 +67,7 @@ router
       }
     }
   )
-  .delete('/:id', async (req, res, next) => {
+  .delete('/:id', celebrate(idValidation), async (req, res, next) => {
     try {
       await deleteReport(req, res)
     } catch (error) {

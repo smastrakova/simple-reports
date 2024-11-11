@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { IReport } from '../db/models/ReportDbo.js'
 import {
   createNewReport,
+  removeReport,
   updateReportFields
 } from '../handlers/reportHandler.js'
 import logger from '../utils/logger.js'
@@ -34,7 +35,11 @@ export const createReport = async (req: Request, res: Response) => {
 }
 
 export const deleteReport = async (req: Request, res: Response) => {
-  res.status(404)
+  const { id } = req.params
+  const deletionResult: IReport = await removeReport(id)
+
+  logger.debug(`Deleted report with id ${id}`)
+  res.status(204).json(deletionResult)
   return
 }
 

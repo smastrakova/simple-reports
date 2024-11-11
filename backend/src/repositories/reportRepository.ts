@@ -42,6 +42,32 @@ export async function createReportDbo(
   }
 }
 
+export async function findOneReturnFields(
+  id: string,
+  fieldsToSelect: string,
+  session?: ClientSession
+): Promise<IReport | null> {
+  try {
+    validateId(id)
+
+    logger.debug(`Fetching single report with id \'${id}\'`)
+
+    const findQuery = { _id: id }
+
+    if (session) {
+      logger.debug('Running query in transaction')
+      return await ReportModel.findOne(findQuery, fieldsToSelect).session(
+        session
+      )
+    }
+
+    return await ReportModel.findOne(findQuery, fieldsToSelect)
+  } catch (error) {
+    logger.error(`Error while fetching single report: ${decode(error)}`)
+    throw error
+  }
+}
+
 export async function findOneReport(
   id: string,
   session?: ClientSession
@@ -81,6 +107,19 @@ export async function saveReport(
     return await report.save()
   } catch (error) {
     logger.error(`Error while saving report: ${decode(error)}`)
+    throw error
+  }
+}
+
+export async function findAndDeleteReport(id: string): Promise<IReport | null> {
+  try {
+    validateId(id)
+
+    logger.debug(`Deleting report with id ${id}`)
+
+    return await ReportModel.findByIdAndDelete(id)
+  } catch (error) {
+    logger.error(`Error while removing report: ${decode(error)}`)
     throw error
   }
 }
