@@ -35,6 +35,25 @@ export async function createFileDbo(
   }
 }
 
+export async function findOneFile(
+  id: string,
+  fieldsToSelect?: string
+): Promise<IFile | null> {
+  try {
+    validateId(id)
+
+    let query = FileModel.findById(id)
+
+    if (fieldsToSelect) {
+      query = query.select(fieldsToSelect)
+    }
+    return await query
+  } catch (error) {
+    logger.error('Error while finding one report file', decode(error))
+    throw error
+  }
+}
+
 export async function deleteManyFiles(
   fileIds: string[],
   session?: ClientSession
