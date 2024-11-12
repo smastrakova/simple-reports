@@ -2,7 +2,7 @@ import { Joi, Segments } from 'celebrate'
 
 export const createReportValidation = {
   [Segments.BODY]: Joi.object({
-    reporterName: Joi.string().required().messages({
+    reporterName: Joi.string().trim().min(1).required().messages({
       'any.required': 'reporterName is required.',
       'string.base': 'reporterName must be a string.',
       'string.empty': 'reporterName cannot be empty.'
@@ -14,7 +14,7 @@ export const createReportValidation = {
       'number.min': 'reporterAge must be at least 1.',
       'number.max': 'reporterAge must be at least 150.'
     }),
-    headline: Joi.string().required().messages({
+    headline: Joi.string().trim().min(1).required().messages({
       'any.required': 'headline is required.',
       'string.base': 'headline must be a string.',
       'string.empty': 'headline cannot be empty.'
