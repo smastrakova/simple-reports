@@ -23,6 +23,9 @@ const fileSizeLimitInBytes: number = 16 * 1024 * 1024
 const storage: StorageEngine = multer.memoryStorage()
 const upload: Multer = multer({
   storage,
+  fileFilter: (req, file, cb) => {
+    cb(null, true)
+  },
   limits: {
     fileSize: fileSizeLimitInBytes
   }
