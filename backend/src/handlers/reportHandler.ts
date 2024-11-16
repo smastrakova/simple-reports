@@ -92,17 +92,21 @@ const updateReportTransactional = async (
   if (file) {
     remoteAttachedFiles(reportDb.files, session)
 
-    const newFile: IFile | undefined | null = file
-      ? await storeFile(file, session)
-      : null
+    if (file.size > 0) {
+      const newFile: IFile | undefined | null = file
+        ? await storeFile(file, session)
+        : null
 
-    if (!newFile) {
-      const error = new Error('File not stored')
-      error.name = 'MissingResultError'
-      throw error
+      if (!newFile) {
+        const error = new Error('File not stored')
+        error.name = 'MissingResultError'
+        throw error
+      }
+
+      reportDb.files = [newFile._id.toString()]
+    } else {
+      reportDb.files = []
     }
-
-    reportDb.files = [newFile._id.toString()]
   }
 
   const updatedReport: IReport | null = await saveReport(reportDb, session)
