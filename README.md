@@ -7,13 +7,11 @@ Each part has its own separate linter config and tsconfig.
 
 ## Prerequisites
 
-### Backend
-MongoDB - make sure you have running Mongo instance with replica set
+### MongoDB
+Backend uses MongoDB. Due to transactions, you will need Mongo instance with running replica set.
 
-App config - make sure to adjust `backend/.env` property according to your preference
-
-### Frontend
-TBD
+### Environment properties
+Make sure to provide necessary environment properties required by appConfig files (both by FE and BE)
 
 ## Available Backend Scripts
 ### `npm start`
