@@ -11,8 +11,8 @@ logs
 /frontend/coverage
 
 # Dependency directories
-backend/node_modules
-frontend/node_modules
+node_modules
+package-lock.json
 
 # TypeScript cache
 *.tsbuildinfo
@@ -22,6 +22,7 @@ frontend/node_modules
 .env.*.local
 .env.local
 
-package-lock.json
+.next
 
 .idea
+

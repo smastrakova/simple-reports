@@ -1,7 +1,9 @@
 # Simple Reports
 Typescript app consisting of two parts:
 - backend in NodeJS
-- frontend in React
+- frontend in React, Next.js
+
+Each part has its own separate linter config and tsconfig.
 
 ## Prerequisites
 
@@ -20,7 +22,7 @@ TBD
 ### `npm run build`
 
 ## Available Frontend Scripts
-### `npm start`
-### `npm test`
-### `npm run lint [--fix]`
+### `npm run dev`
 ### `npm run build`
+### `npm start`
+### `npm run lint [--fix]`
