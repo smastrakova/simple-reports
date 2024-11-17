@@ -14,13 +14,13 @@ Backend uses MongoDB. Due to transactions, you will need Mongo instance with run
 Make sure to provide necessary environment properties required by appConfig files (both by FE and BE)
 
 ## Available Backend Scripts
-### `npm start`
-### `npm test`
-### `npm run lint [--fix]`
-### `npm run build`
+- `npm start`
+- `npm test`
+- `npm run lint [--fix]`
+- `npm run build`
 
 ## Available Frontend Scripts
-### `npm run dev`
-### `npm run build`
-### `npm start`
-### `npm run lint [--fix]`
+- `npm run dev`
+- `npm run build`
+- `npm start`
+- `npm run lint [--fix]`
