@@ -1,0 +1,55 @@
+.dialogContainer {
+    position: relative;
+    padding-bottom: 2rem; /* Add some space at the bottom for the button */
+}
+
+.label {
+    font-weight: bold; /* Make labels bold */
+    display: block; /* Labels above input */
+    margin-bottom: 0.5rem; /* Space between label and input */
+}
+
+/*TBD - ignored*/
+.p-button-danger {
+    background-color: #dc3545; /* Custom danger button color */
+    /*background-color: #c800ff; !* Custom danger button color *!*/
+    border: none; /* Remove border */
+}
+
+.formFieldContainer {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+}
+
+/*TBD*/
+.deleteButtonContainer {
+    position: relative;
+
+    padding: 0.5rem 1rem;
+    /*right: 8rem;*/
+    margin-bottom: 1.5rem;
+}
+
+ /*TBD*/
+.saveButtonContainer {
+    /*position: relative;*/
+
+    padding: 0.5rem 1rem;
+    /*top: 3.5rem;*/
+    /*margin-left: 10rem;*/
+
+}
+
+.nonEditableField {
+    color: #6c757d; /* A muted color to give a readonly appearance */
+    background-color: #f8f9fa; /* Light background for readonly effect */
+    border: none;
+    pointer-events: none; /* Prevents any pointer events */
+}
+
+.nonEditableLabel {
+    color: #6c757d;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+}
