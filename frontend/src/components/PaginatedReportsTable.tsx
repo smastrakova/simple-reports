@@ -3,6 +3,7 @@
 import { ReportsResponse } from '@/api/IReportResponse'
 import ReportsApi from '@/api/reportsApi'
 import { initialState, tableReducer } from '@/hooks/tableReducer'
+import { useDialog } from '@/providers/dialogContextProvider'
 import logger from '@/util/logger'
 import { formatTimestamp } from '@/util/timeFormatter'
 import { Button } from 'primereact/button'
@@ -16,6 +17,7 @@ const reportsService = new ReportsApi()
 
 const PaginatedEntriesTable: React.FC = () => {
   const [state, dispatch] = useReducer(tableReducer, initialState)
+  const { openUpdateDialog } = useDialog()
 
   const fetchEntries = useCallback(async (page: number, pageSize: number) => {
     dispatch({ type: 'FETCH_ALL_REQUEST' })
@@ -51,7 +53,7 @@ const PaginatedEntriesTable: React.FC = () => {
     }
 
     logger.debug(`Selected report with id ${event.data._id}`)
-    // TBD - open modal
+    openUpdateDialog(event.data._id)
   }
 
   const handleNextPage = () => {
