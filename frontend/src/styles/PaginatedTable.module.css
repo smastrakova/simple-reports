@@ -1,0 +1,14 @@
+.tableContainer {
+  text-align: center;
+  padding: 2rem;
+  max-width: 80%;
+  margin: 2rem auto;
+}
+
+.pagination {
+  margin-top: 1rem;
+}
+
+.pageNumber {
+  font-family: 'Arial', sans-serif;
+}
